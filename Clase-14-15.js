@@ -28,6 +28,17 @@ const endpoint = "movie/";
 const idPeli = "26774";
 const apiKey = "api_key=f20416aa14acdc6b2cd1af3feb7633a6";
 const language = "language=en-US";
+let guestSessionId = "guest_session_id=";
+
+// GET GUEST SESSION ID
+$.ajax({
+    method: "GET",
+    url: urlBase + "authentication/guest_session/new?" + apiKey,
+    success: function(respuesta) {
+        guestSessionId = guestSessionId + respuesta.guest_session_id;
+    }
+});
+//
 
 $('#btnGet').click(() => {
     $.ajax({
@@ -48,8 +59,9 @@ const rate = { "value": 8.5 };
 $('#btnPost').click(() => {
     $.ajax({
         method: "POST",
-        url: urlBase + endpoint + idPeli + "/rating?" + apiKey,
-        data: rate,
+        url: urlBase + endpoint + idPeli + "/rating?" + apiKey + "&" + guestSessionId,
+        data: "",
+
         success: function(respuesta) {
             console.log(respuesta);
         }
